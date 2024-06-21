@@ -1,0 +1,29 @@
+{
+	"name": "srcJson",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "srcJsonADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "fraud.json",
+				"fileSystem": "democontainer"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"WindowEnd": {
+					"type": "string"
+				},
+				"FraudulentCalls": {
+					"type": "integer"
+				}
+			}
+		}
+	}
+}
