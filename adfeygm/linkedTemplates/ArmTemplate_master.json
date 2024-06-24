@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'srcJsonADLS'"
 		},
+		"srcSQLDB_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'srcSQLDB'"
+		},
 		"destADLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
@@ -22,6 +26,18 @@
 		"srcJsonADLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://eystoragegm.dfs.core.windows.net/"
+		},
+		"srcSQLDB_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "demodbservergm.database.windows.net"
+		},
+		"srcSQLDB_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "AdventureWorksLT"
+		},
+		"srcSQLDB_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sqladmin"
 		},
 		"containerUri": {
 			"type": "string",
@@ -56,11 +72,23 @@
 					"srcJsonADLS_accountKey": {
 						"value": "[parameters('srcJsonADLS_accountKey')]"
 					},
+					"srcSQLDB_password": {
+						"value": "[parameters('srcSQLDB_password')]"
+					},
 					"destADLS_properties_typeProperties_url": {
 						"value": "[parameters('destADLS_properties_typeProperties_url')]"
 					},
 					"srcJsonADLS_properties_typeProperties_url": {
 						"value": "[parameters('srcJsonADLS_properties_typeProperties_url')]"
+					},
+					"srcSQLDB_properties_typeProperties_server": {
+						"value": "[parameters('srcSQLDB_properties_typeProperties_server')]"
+					},
+					"srcSQLDB_properties_typeProperties_database": {
+						"value": "[parameters('srcSQLDB_properties_typeProperties_database')]"
+					},
+					"srcSQLDB_properties_typeProperties_userName": {
+						"value": "[parameters('srcSQLDB_properties_typeProperties_userName')]"
 					}
 				}
 			},
