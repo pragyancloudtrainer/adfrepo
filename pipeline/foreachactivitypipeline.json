@@ -1,0 +1,42 @@
+{
+	"name": "foreachactivitypipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('filenames')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "wait",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 10
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"filenames": {
+				"type": "Array",
+				"defaultValue": [
+					"drivers.csv",
+					"races.csv",
+					"results.csv"
+				]
+			}
+		},
+		"annotations": []
+	}
+}
