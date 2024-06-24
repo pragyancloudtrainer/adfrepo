@@ -110,6 +110,8 @@
 			{
 				"name": "demoLookup",
 				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "cloudtocloud",
