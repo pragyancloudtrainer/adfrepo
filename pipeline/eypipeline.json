@@ -5,6 +5,8 @@
 			{
 				"name": "cloudtocloud",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -108,8 +110,6 @@
 			{
 				"name": "demoLookup",
 				"type": "Lookup",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "cloudtocloud",
@@ -129,6 +129,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select * from product_category_subcategory where prod_cat_code=1",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
