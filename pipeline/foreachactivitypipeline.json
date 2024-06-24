@@ -15,12 +15,20 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Wait1",
-							"type": "Wait",
+							"name": "readingfile",
+							"type": "SetVariable",
 							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
 							"userProperties": [],
 							"typeProperties": {
-								"waitTimeInSeconds": 1
+								"variableName": "filename",
+								"value": {
+									"value": "@item()",
+									"type": "Expression"
+								}
 							}
 						}
 					]
@@ -35,6 +43,9 @@
 					"races.csv",
 					"results.csv"
 				]
+			},
+			"filename": {
+				"type": "String"
 			}
 		},
 		"annotations": []
