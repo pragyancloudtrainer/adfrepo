@@ -15,15 +15,10 @@
 						"referenceName": "getBLOB",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": false
 				}
 			}
 		],
-		"parameters": {
-			"pipelinename": {
-				"type": "string"
-			}
-		},
 		"annotations": []
 	}
 }
