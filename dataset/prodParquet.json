@@ -1,0 +1,94 @@
+{
+	"name": "prodParquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "prodADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "part-00000-tid-4996125762288587425-39b971aa-54a4-4a6f-9026-971bb21d90a4-31-1.c000.snappy.parquet",
+				"folderPath": "results",
+				"fileSystem": "processed"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "resultId",
+				"type": "INT32"
+			},
+			{
+				"name": "raceId",
+				"type": "INT32"
+			},
+			{
+				"name": "driverId",
+				"type": "INT32"
+			},
+			{
+				"name": "constructorId",
+				"type": "INT32"
+			},
+			{
+				"name": "number",
+				"type": "UTF8"
+			},
+			{
+				"name": "grid",
+				"type": "INT32"
+			},
+			{
+				"name": "position",
+				"type": "UTF8"
+			},
+			{
+				"name": "positionText",
+				"type": "UTF8"
+			},
+			{
+				"name": "positionOrder",
+				"type": "INT32"
+			},
+			{
+				"name": "points",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "laps",
+				"type": "INT32"
+			},
+			{
+				"name": "time",
+				"type": "UTF8"
+			},
+			{
+				"name": "milliseconds",
+				"type": "UTF8"
+			},
+			{
+				"name": "fastestLap",
+				"type": "UTF8"
+			},
+			{
+				"name": "rank",
+				"type": "UTF8"
+			},
+			{
+				"name": "fastestLapTime",
+				"type": "UTF8"
+			},
+			{
+				"name": "fastestLapSpeed",
+				"type": "UTF8"
+			},
+			{
+				"name": "statusId",
+				"type": "INT32"
+			}
+		]
+	}
+}

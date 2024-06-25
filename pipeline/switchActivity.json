@@ -1,0 +1,134 @@
+{
+	"name": "switchActivity",
+	"properties": {
+		"activities": [
+			{
+				"name": "MySwitch",
+				"type": "Switch",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@pipeline().parameters.enviornment",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "Dev",
+							"activities": [
+								{
+									"name": "readingForDev",
+									"type": "Lookup",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "ParquetSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "ParquetReadSettings"
+											}
+										},
+										"dataset": {
+											"referenceName": "devParquet",
+											"type": "DatasetReference"
+										},
+										"firstRowOnly": false
+									}
+								}
+							]
+						},
+						{
+							"value": "Test",
+							"activities": [
+								{
+									"name": "testEnv",
+									"type": "Lookup",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"dataset": {
+											"referenceName": "delimitedSRC",
+											"type": "DatasetReference"
+										}
+									}
+								}
+							]
+						},
+						{
+							"value": "Prod",
+							"activities": [
+								{
+									"name": "prodFile",
+									"type": "Lookup",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "ParquetSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "ParquetReadSettings"
+											}
+										},
+										"dataset": {
+											"referenceName": "prodParquet",
+											"type": "DatasetReference"
+										},
+										"firstRowOnly": false
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"enviornment": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}
