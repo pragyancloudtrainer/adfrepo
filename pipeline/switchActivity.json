@@ -6,7 +6,6 @@
 				"name": "MySwitch",
 				"type": "Switch",
 				"dependsOn": [],
-				"userProperties": [],
 				"typeProperties": {
 					"on": {
 						"value": "@pipeline().parameters.enviornment",

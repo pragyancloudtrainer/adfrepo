@@ -11,6 +11,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "getBLOB",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			}
