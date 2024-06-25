@@ -19,6 +19,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'srcSQLDB'"
 		},
+		"presentationADLS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'presentationADLS'"
+		},
+		"prodADLS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'prodADLS'"
+		},
 		"destADLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
@@ -38,6 +46,18 @@
 		"srcSQLDB_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sqladmin"
+		},
+		"presentationADLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
+		},
+		"prodADLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
+		},
+		"srcRest_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/pragyancloudtrainer/pragyanrepository/main/formula1ds/constructor_results.csv"
 		}
 	},
 	"variables": {
@@ -160,6 +180,55 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/presentationADLS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('presentationADLS_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('presentationADLS_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/prodADLS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('prodADLS_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('prodADLS_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/srcRest')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('srcRest_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/delimitedSRC')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -173,7 +242,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "Product_Category_Subcategory.csv",
+						"fileName": "*.csv",
 						"fileSystem": "raw"
 					},
 					"columnDelimiter": ",",
@@ -329,6 +398,194 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/srcSQLDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/devParquet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "presentationADLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "part-00000-tid-6691442945164337936-1a713aff-5273-455b-97f1-0eae1587a76e-121-1.c000.snappy.parquet",
+						"folderPath": "race_results",
+						"fileSystem": "presentation"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "year",
+						"type": "INT32"
+					},
+					{
+						"name": "race_name",
+						"type": "UTF8"
+					},
+					{
+						"name": "race_date",
+						"type": "DATE"
+					},
+					{
+						"name": "location",
+						"type": "UTF8"
+					},
+					{
+						"name": "driver_number",
+						"type": "UTF8"
+					},
+					{
+						"name": "driver_nationality",
+						"type": "UTF8"
+					},
+					{
+						"name": "circuit_name",
+						"type": "UTF8"
+					},
+					{
+						"name": "grid",
+						"type": "INT32"
+					},
+					{
+						"name": "fastestLap",
+						"type": "UTF8"
+					},
+					{
+						"name": "time",
+						"type": "UTF8"
+					},
+					{
+						"name": "position",
+						"type": "UTF8"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/presentationADLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/prodParquet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "prodADLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "part-00000-tid-4996125762288587425-39b971aa-54a4-4a6f-9026-971bb21d90a4-31-1.c000.snappy.parquet",
+						"folderPath": "results",
+						"fileSystem": "processed"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "resultId",
+						"type": "INT32"
+					},
+					{
+						"name": "raceId",
+						"type": "INT32"
+					},
+					{
+						"name": "driverId",
+						"type": "INT32"
+					},
+					{
+						"name": "constructorId",
+						"type": "INT32"
+					},
+					{
+						"name": "number",
+						"type": "UTF8"
+					},
+					{
+						"name": "grid",
+						"type": "INT32"
+					},
+					{
+						"name": "position",
+						"type": "UTF8"
+					},
+					{
+						"name": "positionText",
+						"type": "UTF8"
+					},
+					{
+						"name": "positionOrder",
+						"type": "INT32"
+					},
+					{
+						"name": "points",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "laps",
+						"type": "INT32"
+					},
+					{
+						"name": "time",
+						"type": "UTF8"
+					},
+					{
+						"name": "milliseconds",
+						"type": "UTF8"
+					},
+					{
+						"name": "fastestLap",
+						"type": "UTF8"
+					},
+					{
+						"name": "rank",
+						"type": "UTF8"
+					},
+					{
+						"name": "fastestLapTime",
+						"type": "UTF8"
+					},
+					{
+						"name": "fastestLapSpeed",
+						"type": "UTF8"
+					},
+					{
+						"name": "statusId",
+						"type": "INT32"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/prodADLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/demoRes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srcRest",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srcRest')]"
 			]
 		},
 		{
@@ -693,7 +950,7 @@
 								"parameters": {}
 							},
 							"fieldList": [
-								"childItems"
+								"itemName"
 							],
 							"storeSettings": {
 								"type": "AzureBlobFSReadSettings",
@@ -864,6 +1121,156 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/srcSQL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/switchActivity')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "MySwitch",
+						"type": "Switch",
+						"dependsOn": [],
+						"userProperties": [
+							{}
+						],
+						"typeProperties": {
+							"on": {
+								"value": "@pipeline().parameters.enviornment",
+								"type": "Expression"
+							},
+							"cases": [
+								{
+									"value": "Dev",
+									"activities": [
+										{
+											"name": "readingForDev",
+											"type": "Lookup",
+											"dependsOn": [],
+											"policy": {
+												"timeout": "0.12:00:00",
+												"retry": 0,
+												"retryIntervalInSeconds": 30,
+												"secureOutput": false,
+												"secureInput": false
+											},
+											"userProperties": [],
+											"typeProperties": {
+												"source": {
+													"type": "ParquetSource",
+													"storeSettings": {
+														"type": "AzureBlobFSReadSettings",
+														"recursive": true,
+														"enablePartitionDiscovery": false
+													},
+													"formatSettings": {
+														"type": "ParquetReadSettings"
+													}
+												},
+												"dataset": {
+													"referenceName": "devParquet",
+													"type": "DatasetReference",
+													"parameters": {}
+												},
+												"firstRowOnly": false
+											}
+										}
+									]
+								},
+								{
+									"value": "Test",
+									"activities": [
+										{
+											"name": "testEnv",
+											"type": "Lookup",
+											"dependsOn": [],
+											"policy": {
+												"timeout": "0.12:00:00",
+												"retry": 0,
+												"retryIntervalInSeconds": 30,
+												"secureOutput": false,
+												"secureInput": false
+											},
+											"userProperties": [],
+											"typeProperties": {
+												"source": {
+													"type": "DelimitedTextSource",
+													"storeSettings": {
+														"type": "AzureBlobFSReadSettings",
+														"recursive": true,
+														"enablePartitionDiscovery": false
+													},
+													"formatSettings": {
+														"type": "DelimitedTextReadSettings"
+													}
+												},
+												"dataset": {
+													"referenceName": "delimitedSRC",
+													"type": "DatasetReference",
+													"parameters": {}
+												},
+												"firstRowOnly": false
+											}
+										}
+									]
+								},
+								{
+									"value": "Prod",
+									"activities": [
+										{
+											"name": "prodFile",
+											"type": "Lookup",
+											"dependsOn": [],
+											"policy": {
+												"timeout": "0.12:00:00",
+												"retry": 0,
+												"retryIntervalInSeconds": 30,
+												"secureOutput": false,
+												"secureInput": false
+											},
+											"userProperties": [],
+											"typeProperties": {
+												"source": {
+													"type": "ParquetSource",
+													"storeSettings": {
+														"type": "AzureBlobFSReadSettings",
+														"recursive": true,
+														"enablePartitionDiscovery": false
+													},
+													"formatSettings": {
+														"type": "ParquetReadSettings"
+													}
+												},
+												"dataset": {
+													"referenceName": "prodParquet",
+													"type": "DatasetReference",
+													"parameters": {}
+												},
+												"firstRowOnly": false
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"enviornment": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/devParquet')]",
+				"[concat(variables('factoryId'), '/datasets/delimitedSRC')]",
+				"[concat(variables('factoryId'), '/datasets/prodParquet')]"
 			]
 		}
 	]

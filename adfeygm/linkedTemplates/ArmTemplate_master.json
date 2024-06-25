@@ -19,6 +19,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'srcSQLDB'"
 		},
+		"presentationADLS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'presentationADLS'"
+		},
+		"prodADLS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'prodADLS'"
+		},
 		"destADLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
@@ -38,6 +46,18 @@
 		"srcSQLDB_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sqladmin"
+		},
+		"presentationADLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
+		},
+		"prodADLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
+		},
+		"srcRest_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/pragyancloudtrainer/pragyanrepository/main/formula1ds/constructor_results.csv"
 		},
 		"containerUri": {
 			"type": "string",
@@ -75,6 +95,12 @@
 					"srcSQLDB_password": {
 						"value": "[parameters('srcSQLDB_password')]"
 					},
+					"presentationADLS_accountKey": {
+						"value": "[parameters('presentationADLS_accountKey')]"
+					},
+					"prodADLS_accountKey": {
+						"value": "[parameters('prodADLS_accountKey')]"
+					},
 					"destADLS_properties_typeProperties_url": {
 						"value": "[parameters('destADLS_properties_typeProperties_url')]"
 					},
@@ -89,10 +115,39 @@
 					},
 					"srcSQLDB_properties_typeProperties_userName": {
 						"value": "[parameters('srcSQLDB_properties_typeProperties_userName')]"
+					},
+					"presentationADLS_properties_typeProperties_url": {
+						"value": "[parameters('presentationADLS_properties_typeProperties_url')]"
+					},
+					"prodADLS_properties_typeProperties_url": {
+						"value": "[parameters('prodADLS_properties_typeProperties_url')]"
+					},
+					"srcRest_properties_typeProperties_url": {
+						"value": "[parameters('srcRest_properties_typeProperties_url')]"
 					}
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "adfeygm_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'adfeygm_ArmTemplate_0')]"
+			]
 		}
 	]
 }
