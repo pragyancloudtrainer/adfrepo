@@ -1,0 +1,12 @@
+{
+	"name": "demoRes",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "srcRest",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
