@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "InvokePipelineActivity",
+				"name": "MasterPipeline",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"policy": {
@@ -12,10 +12,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "getBLOB",
+						"referenceName": "gettingDataFromDatabase",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": false
+					"waitOnCompletion": true
 				}
 			}
 		],
