@@ -1,0 +1,12 @@
+{
+	"name": "srcRest",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://raw.githubusercontent.com/pragyancloudtrainer/pragyanrepository/main/formula1ds/constructor_results.csv",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
