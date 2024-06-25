@@ -79,7 +79,8 @@
 										"dataset": {
 											"referenceName": "delimitedSRC",
 											"type": "DatasetReference"
-										}
+										},
+										"firstRowOnly": false
 									}
 								}
 							]
