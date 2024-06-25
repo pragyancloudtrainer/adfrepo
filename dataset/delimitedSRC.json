@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "Product_Category_Subcategory.csv",
+				"fileName": "drivers.csv",
 				"fileSystem": "raw"
 			},
 			"columnDelimiter": ",",
