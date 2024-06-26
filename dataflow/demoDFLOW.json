@@ -1,0 +1,38 @@
+{
+	"name": "demoDFLOW",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "final_parquet",
+						"type": "DatasetReference"
+					},
+					"name": "srcParquet"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          year as integer,",
+				"          race_name as string,",
+				"          race_date as date,",
+				"          location as string,",
+				"          driver_number as string,",
+				"          driver_nationality as string,",
+				"          circuit_name as string,",
+				"          grid as integer,",
+				"          fastestLap as string,",
+				"          time as string,",
+				"          position as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> srcParquet"
+			]
+		}
+	}
+}

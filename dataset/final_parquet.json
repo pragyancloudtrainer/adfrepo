@@ -1,0 +1,66 @@
+{
+	"name": "final_parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "presentationADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "race_results.snappy.parquet",
+				"folderPath": "race_results",
+				"fileSystem": "presentation"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "year",
+				"type": "INT32"
+			},
+			{
+				"name": "race_name",
+				"type": "UTF8"
+			},
+			{
+				"name": "race_date",
+				"type": "DATE"
+			},
+			{
+				"name": "location",
+				"type": "UTF8"
+			},
+			{
+				"name": "driver_number",
+				"type": "UTF8"
+			},
+			{
+				"name": "driver_nationality",
+				"type": "UTF8"
+			},
+			{
+				"name": "circuit_name",
+				"type": "UTF8"
+			},
+			{
+				"name": "grid",
+				"type": "INT32"
+			},
+			{
+				"name": "fastestLap",
+				"type": "UTF8"
+			},
+			{
+				"name": "time",
+				"type": "UTF8"
+			},
+			{
+				"name": "position",
+				"type": "UTF8"
+			}
+		]
+	}
+}
