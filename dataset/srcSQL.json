@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "product_category_subcategory"
+			"table": "race_results"
 		}
 	}
 }
