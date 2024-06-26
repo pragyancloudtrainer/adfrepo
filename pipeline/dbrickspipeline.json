@@ -1,0 +1,102 @@
+{
+	"name": "dbrickspipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "SwitchNotebook",
+				"type": "Switch",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@pipeline().parameters.notebookname",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "basic_transform",
+							"activities": [
+								{
+									"name": "Basic_Transformation",
+									"type": "DatabricksNotebook",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"notebookPath": "/Users/cloudtraineracct@outlook.com/02_basic_transformation"
+									},
+									"linkedServiceName": {
+										"referenceName": "azDbricksLinked",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						},
+						{
+							"value": "string_and_date",
+							"activities": [
+								{
+									"name": "string_date",
+									"type": "DatabricksNotebook",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"notebookPath": "/Users/cloudtraineracct@outlook.com/04_String_and_date"
+									},
+									"linkedServiceName": {
+										"referenceName": "azDbricksLinked",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						},
+						{
+							"value": "sort_union",
+							"activities": [
+								{
+									"name": "sort_union",
+									"type": "DatabricksNotebook",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"notebookPath": "/Users/cloudtraineracct@outlook.com/05_Sort_union_aggregation_in_spark"
+									},
+									"linkedServiceName": {
+										"referenceName": "azDbricksLinked",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"notebookname": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}
