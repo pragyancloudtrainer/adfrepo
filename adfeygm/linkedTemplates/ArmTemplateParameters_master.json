@@ -8,23 +8,35 @@
 		"destADLS_accountKey": {
 			"value": ""
 		},
-		"srcJsonADLS_accountKey": {
-			"value": ""
-		},
-		"srcSQLDB_password": {
-			"value": ""
-		},
 		"presentationADLS_accountKey": {
 			"value": ""
 		},
 		"prodADLS_accountKey": {
 			"value": ""
 		},
+		"srcJsonADLS_accountKey": {
+			"value": ""
+		},
+		"srcSQLDB_password": {
+			"value": ""
+		},
+		"azDbricksLinked_accessToken": {
+			"value": ""
+		},
 		"destADLS_properties_typeProperties_url": {
+			"value": "https://databrickseystorage.dfs.core.windows.net/"
+		},
+		"presentationADLS_properties_typeProperties_url": {
+			"value": "https://databrickseystorage.dfs.core.windows.net/"
+		},
+		"prodADLS_properties_typeProperties_url": {
 			"value": "https://databrickseystorage.dfs.core.windows.net/"
 		},
 		"srcJsonADLS_properties_typeProperties_url": {
 			"value": "https://eystoragegm.dfs.core.windows.net/"
+		},
+		"srcRest_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/pragyancloudtrainer/pragyanrepository/main/formula1ds/constructor_results.csv"
 		},
 		"srcSQLDB_properties_typeProperties_server": {
 			"value": "demodbservergm.database.windows.net"
@@ -35,14 +47,8 @@
 		"srcSQLDB_properties_typeProperties_userName": {
 			"value": "sqladmin"
 		},
-		"presentationADLS_properties_typeProperties_url": {
-			"value": "https://databrickseystorage.dfs.core.windows.net/"
-		},
-		"prodADLS_properties_typeProperties_url": {
-			"value": "https://databrickseystorage.dfs.core.windows.net/"
-		},
-		"srcRest_properties_typeProperties_url": {
-			"value": "https://raw.githubusercontent.com/pragyancloudtrainer/pragyanrepository/main/formula1ds/constructor_results.csv"
+		"azDbricksLinked_properties_typeProperties_existingClusterId": {
+			"value": "0607-044521-ihknvvyp"
 		},
 		"containerUri": {
 			"value": ""

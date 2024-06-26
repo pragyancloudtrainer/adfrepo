@@ -11,14 +11,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'destADLS'"
 		},
-		"srcJsonADLS_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'srcJsonADLS'"
-		},
-		"srcSQLDB_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'srcSQLDB'"
-		},
 		"presentationADLS_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'presentationADLS'"
@@ -27,13 +19,37 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'prodADLS'"
 		},
+		"srcJsonADLS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'srcJsonADLS'"
+		},
+		"srcSQLDB_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'srcSQLDB'"
+		},
+		"azDbricksLinked_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'azDbricksLinked'"
+		},
 		"destADLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
+		},
+		"presentationADLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
+		},
+		"prodADLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
 		},
 		"srcJsonADLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://eystoragegm.dfs.core.windows.net/"
+		},
+		"srcRest_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/pragyancloudtrainer/pragyanrepository/main/formula1ds/constructor_results.csv"
 		},
 		"srcSQLDB_properties_typeProperties_server": {
 			"type": "string",
@@ -47,17 +63,9 @@
 			"type": "string",
 			"defaultValue": "sqladmin"
 		},
-		"presentationADLS_properties_typeProperties_url": {
+		"azDbricksLinked_properties_typeProperties_existingClusterId": {
 			"type": "string",
-			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
-		},
-		"prodADLS_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
-		},
-		"srcRest_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://raw.githubusercontent.com/pragyancloudtrainer/pragyanrepository/main/formula1ds/constructor_results.csv"
+			"defaultValue": "0607-044521-ihknvvyp"
 		}
 	},
 	"variables": {
@@ -141,45 +149,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/srcJsonADLS')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('srcJsonADLS_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('srcJsonADLS_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/srcSQLDB')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"server": "[parameters('srcSQLDB_properties_typeProperties_server')]",
-					"database": "[parameters('srcSQLDB_properties_typeProperties_database')]",
-					"encrypt": "optional",
-					"trustServerCertificate": false,
-					"authenticationType": "SQL",
-					"userName": "[parameters('srcSQLDB_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('srcSQLDB_password')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/presentationADLS')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -214,6 +183,23 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/srcJsonADLS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('srcJsonADLS_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('srcJsonADLS_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/srcRest')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -224,6 +210,46 @@
 					"url": "[parameters('srcRest_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/srcSQLDB')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('srcSQLDB_properties_typeProperties_server')]",
+					"database": "[parameters('srcSQLDB_properties_typeProperties_database')]",
+					"encrypt": "optional",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('srcSQLDB_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('srcSQLDB_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/azDbricksLinked')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-2655662354724726.6.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('azDbricksLinked_accessToken')]"
+					},
+					"existingClusterId": "[parameters('azDbricksLinked_properties_typeProperties_existingClusterId')]"
 				}
 			},
 			"dependsOn": []
@@ -278,6 +304,24 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/demoRes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srcRest",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srcRest')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/destJsonADLS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -298,106 +342,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/destADLS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/prodCSV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "destADLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "Product_Category_Subcategory.csv",
-						"fileSystem": "raw"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "prod_cat_code",
-						"type": "String"
-					},
-					{
-						"name": "prod_cat",
-						"type": "String"
-					},
-					{
-						"name": "prod_sub_cat_code",
-						"type": "String"
-					},
-					{
-						"name": "prod_subcat",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/destADLS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/srcJson')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "srcJsonADLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "fraud.json",
-						"fileSystem": "democontainer"
-					}
-				},
-				"schema": {
-					"type": "object",
-					"properties": {
-						"WindowEnd": {
-							"type": "string"
-						},
-						"FraudulentCalls": {
-							"type": "integer"
-						}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/srcJsonADLS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/srcSQL')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "srcSQLDB",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "product_category_subcategory"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/srcSQLDB')]"
 			]
 		},
 		{
@@ -469,6 +413,51 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/presentationADLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/prodCSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "destADLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Product_Category_Subcategory.csv",
+						"fileSystem": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "prod_cat_code",
+						"type": "String"
+					},
+					{
+						"name": "prod_cat",
+						"type": "String"
+					},
+					{
+						"name": "prod_sub_cat_code",
+						"type": "String"
+					},
+					{
+						"name": "prod_subcat",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/destADLS')]"
 			]
 		},
 		{
@@ -571,113 +560,151 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/demoRes')]",
+			"name": "[concat(parameters('factoryName'), '/srcJson')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "srcRest",
+					"referenceName": "srcJsonADLS",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {},
-				"schema": []
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "fraud.json",
+						"fileSystem": "democontainer"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"WindowEnd": {
+							"type": "string"
+						},
+						"FraudulentCalls": {
+							"type": "integer"
+						}
+					}
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/srcRest')]"
+				"[concat(variables('factoryId'), '/linkedServices/srcJsonADLS')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/usingifelsecondition')]",
+			"name": "[concat(parameters('factoryName'), '/srcSQL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "srcSQLDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "product_category_subcategory"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/srcSQLDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dbrickspipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "callingProductCatSubcat",
-						"type": "Lookup",
+						"name": "SwitchNotebook",
+						"type": "Switch",
 						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
 						"userProperties": [],
 						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"dataset": {
-								"referenceName": "delimitedSRC",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "usingIfElse",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "callingProductCatSubcat",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('callingProductCatSubcat').output.value",
+							"on": {
+								"value": "@pipeline().parameters.notebookname",
 								"type": "Expression"
 							},
-							"isSequential": true,
-							"activities": [
+							"cases": [
 								{
-									"name": "checkCondition",
-									"type": "IfCondition",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"expression": {
-											"value": "@equals(item().prod_subcat, 'Mens')",
-											"type": "Expression"
-										},
-										"ifFalseActivities": [
-											{
-												"name": "Wait_InsideFalse",
-												"type": "Wait",
-												"dependsOn": [],
-												"userProperties": [],
-												"typeProperties": {
-													"waitTimeInSeconds": 1
-												}
+									"value": "basic_transform",
+									"activities": [
+										{
+											"name": "Basic_Transformation",
+											"type": "DatabricksNotebook",
+											"dependsOn": [],
+											"policy": {
+												"timeout": "0.12:00:00",
+												"retry": 0,
+												"retryIntervalInSeconds": 30,
+												"secureOutput": false,
+												"secureInput": false
+											},
+											"userProperties": [],
+											"typeProperties": {
+												"notebookPath": "/Users/cloudtraineracct@outlook.com/02_basic_transformation"
+											},
+											"linkedServiceName": {
+												"referenceName": "azDbricksLinked",
+												"type": "LinkedServiceReference"
 											}
-										],
-										"ifTrueActivities": [
-											{
-												"name": "Wait_InsideTrue",
-												"type": "Wait",
-												"dependsOn": [],
-												"userProperties": [],
-												"typeProperties": {
-													"waitTimeInSeconds": 1
-												}
+										}
+									]
+								},
+								{
+									"value": "string_and_date",
+									"activities": [
+										{
+											"name": "string_date",
+											"type": "DatabricksNotebook",
+											"dependsOn": [],
+											"policy": {
+												"timeout": "0.12:00:00",
+												"retry": 0,
+												"retryIntervalInSeconds": 30,
+												"secureOutput": false,
+												"secureInput": false
+											},
+											"userProperties": [],
+											"typeProperties": {
+												"notebookPath": "/Users/cloudtraineracct@outlook.com/04_String_and_date"
+											},
+											"linkedServiceName": {
+												"referenceName": "azDbricksLinked",
+												"type": "LinkedServiceReference"
 											}
-										]
-									}
+										}
+									]
+								},
+								{
+									"value": "sort_union",
+									"activities": [
+										{
+											"name": "sort_union",
+											"type": "DatabricksNotebook",
+											"dependsOn": [],
+											"policy": {
+												"timeout": "0.12:00:00",
+												"retry": 0,
+												"retryIntervalInSeconds": 30,
+												"secureOutput": false,
+												"secureInput": false
+											},
+											"userProperties": [],
+											"typeProperties": {
+												"notebookPath": "/Users/cloudtraineracct@outlook.com/05_Sort_union_aggregation_in_spark"
+											},
+											"linkedServiceName": {
+												"referenceName": "azDbricksLinked",
+												"type": "LinkedServiceReference"
+											}
+										}
+									]
 								}
 							]
 						}
@@ -686,10 +713,15 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"parameters": {
+					"notebookname": {
+						"type": "string"
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/delimitedSRC')]"
+				"[concat(variables('factoryId'), '/linkedServices/azDbricksLinked')]"
 			]
 		},
 		{
@@ -1121,156 +1153,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/srcSQL')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/switchActivity')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "MySwitch",
-						"type": "Switch",
-						"dependsOn": [],
-						"userProperties": [
-							{}
-						],
-						"typeProperties": {
-							"on": {
-								"value": "@pipeline().parameters.enviornment",
-								"type": "Expression"
-							},
-							"cases": [
-								{
-									"value": "Dev",
-									"activities": [
-										{
-											"name": "readingForDev",
-											"type": "Lookup",
-											"dependsOn": [],
-											"policy": {
-												"timeout": "0.12:00:00",
-												"retry": 0,
-												"retryIntervalInSeconds": 30,
-												"secureOutput": false,
-												"secureInput": false
-											},
-											"userProperties": [],
-											"typeProperties": {
-												"source": {
-													"type": "ParquetSource",
-													"storeSettings": {
-														"type": "AzureBlobFSReadSettings",
-														"recursive": true,
-														"enablePartitionDiscovery": false
-													},
-													"formatSettings": {
-														"type": "ParquetReadSettings"
-													}
-												},
-												"dataset": {
-													"referenceName": "devParquet",
-													"type": "DatasetReference",
-													"parameters": {}
-												},
-												"firstRowOnly": false
-											}
-										}
-									]
-								},
-								{
-									"value": "Test",
-									"activities": [
-										{
-											"name": "testEnv",
-											"type": "Lookup",
-											"dependsOn": [],
-											"policy": {
-												"timeout": "0.12:00:00",
-												"retry": 0,
-												"retryIntervalInSeconds": 30,
-												"secureOutput": false,
-												"secureInput": false
-											},
-											"userProperties": [],
-											"typeProperties": {
-												"source": {
-													"type": "DelimitedTextSource",
-													"storeSettings": {
-														"type": "AzureBlobFSReadSettings",
-														"recursive": true,
-														"enablePartitionDiscovery": false
-													},
-													"formatSettings": {
-														"type": "DelimitedTextReadSettings"
-													}
-												},
-												"dataset": {
-													"referenceName": "delimitedSRC",
-													"type": "DatasetReference",
-													"parameters": {}
-												},
-												"firstRowOnly": false
-											}
-										}
-									]
-								},
-								{
-									"value": "Prod",
-									"activities": [
-										{
-											"name": "prodFile",
-											"type": "Lookup",
-											"dependsOn": [],
-											"policy": {
-												"timeout": "0.12:00:00",
-												"retry": 0,
-												"retryIntervalInSeconds": 30,
-												"secureOutput": false,
-												"secureInput": false
-											},
-											"userProperties": [],
-											"typeProperties": {
-												"source": {
-													"type": "ParquetSource",
-													"storeSettings": {
-														"type": "AzureBlobFSReadSettings",
-														"recursive": true,
-														"enablePartitionDiscovery": false
-													},
-													"formatSettings": {
-														"type": "ParquetReadSettings"
-													}
-												},
-												"dataset": {
-													"referenceName": "prodParquet",
-													"type": "DatasetReference",
-													"parameters": {}
-												},
-												"firstRowOnly": false
-											}
-										}
-									]
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"enviornment": {
-						"type": "string"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/devParquet')]",
-				"[concat(variables('factoryId'), '/datasets/delimitedSRC')]",
-				"[concat(variables('factoryId'), '/datasets/prodParquet')]"
 			]
 		}
 	]

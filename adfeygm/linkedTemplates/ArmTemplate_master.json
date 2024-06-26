@@ -11,14 +11,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'destADLS'"
 		},
-		"srcJsonADLS_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'srcJsonADLS'"
-		},
-		"srcSQLDB_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'srcSQLDB'"
-		},
 		"presentationADLS_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'presentationADLS'"
@@ -27,13 +19,37 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'prodADLS'"
 		},
+		"srcJsonADLS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'srcJsonADLS'"
+		},
+		"srcSQLDB_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'srcSQLDB'"
+		},
+		"azDbricksLinked_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'azDbricksLinked'"
+		},
 		"destADLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
+		},
+		"presentationADLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
+		},
+		"prodADLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
 		},
 		"srcJsonADLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://eystoragegm.dfs.core.windows.net/"
+		},
+		"srcRest_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/pragyancloudtrainer/pragyanrepository/main/formula1ds/constructor_results.csv"
 		},
 		"srcSQLDB_properties_typeProperties_server": {
 			"type": "string",
@@ -47,17 +63,9 @@
 			"type": "string",
 			"defaultValue": "sqladmin"
 		},
-		"presentationADLS_properties_typeProperties_url": {
+		"azDbricksLinked_properties_typeProperties_existingClusterId": {
 			"type": "string",
-			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
-		},
-		"prodADLS_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://databrickseystorage.dfs.core.windows.net/"
-		},
-		"srcRest_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://raw.githubusercontent.com/pragyancloudtrainer/pragyanrepository/main/formula1ds/constructor_results.csv"
+			"defaultValue": "0607-044521-ihknvvyp"
 		},
 		"containerUri": {
 			"type": "string",
@@ -89,23 +97,35 @@
 					"destADLS_accountKey": {
 						"value": "[parameters('destADLS_accountKey')]"
 					},
-					"srcJsonADLS_accountKey": {
-						"value": "[parameters('srcJsonADLS_accountKey')]"
-					},
-					"srcSQLDB_password": {
-						"value": "[parameters('srcSQLDB_password')]"
-					},
 					"presentationADLS_accountKey": {
 						"value": "[parameters('presentationADLS_accountKey')]"
 					},
 					"prodADLS_accountKey": {
 						"value": "[parameters('prodADLS_accountKey')]"
 					},
+					"srcJsonADLS_accountKey": {
+						"value": "[parameters('srcJsonADLS_accountKey')]"
+					},
+					"srcSQLDB_password": {
+						"value": "[parameters('srcSQLDB_password')]"
+					},
+					"azDbricksLinked_accessToken": {
+						"value": "[parameters('azDbricksLinked_accessToken')]"
+					},
 					"destADLS_properties_typeProperties_url": {
 						"value": "[parameters('destADLS_properties_typeProperties_url')]"
 					},
+					"presentationADLS_properties_typeProperties_url": {
+						"value": "[parameters('presentationADLS_properties_typeProperties_url')]"
+					},
+					"prodADLS_properties_typeProperties_url": {
+						"value": "[parameters('prodADLS_properties_typeProperties_url')]"
+					},
 					"srcJsonADLS_properties_typeProperties_url": {
 						"value": "[parameters('srcJsonADLS_properties_typeProperties_url')]"
+					},
+					"srcRest_properties_typeProperties_url": {
+						"value": "[parameters('srcRest_properties_typeProperties_url')]"
 					},
 					"srcSQLDB_properties_typeProperties_server": {
 						"value": "[parameters('srcSQLDB_properties_typeProperties_server')]"
@@ -116,14 +136,8 @@
 					"srcSQLDB_properties_typeProperties_userName": {
 						"value": "[parameters('srcSQLDB_properties_typeProperties_userName')]"
 					},
-					"presentationADLS_properties_typeProperties_url": {
-						"value": "[parameters('presentationADLS_properties_typeProperties_url')]"
-					},
-					"prodADLS_properties_typeProperties_url": {
-						"value": "[parameters('prodADLS_properties_typeProperties_url')]"
-					},
-					"srcRest_properties_typeProperties_url": {
-						"value": "[parameters('srcRest_properties_typeProperties_url')]"
+					"azDbricksLinked_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('azDbricksLinked_properties_typeProperties_existingClusterId')]"
 					}
 				}
 			},
