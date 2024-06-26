@@ -12,8 +12,20 @@
 					"name": "srcParquet"
 				}
 			],
-			"sinks": [],
-			"transformations": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "srcSQL",
+						"type": "DatasetReference"
+					},
+					"name": "destTableParquet"
+				}
+			],
+			"transformations": [
+				{
+					"name": "addingcol"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          year as integer,",
@@ -31,7 +43,18 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet') ~> srcParquet"
+				"     format: 'parquet') ~> srcParquet",
+				"srcParquet derive(loc_circuit = concat(location,\" \",circuit_name)) ~> addingcol",
+				"addingcol sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> destTableParquet"
 			]
 		}
 	}
