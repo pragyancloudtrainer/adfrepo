@@ -8,6 +8,9 @@
 				"pipelineReference": {
 					"referenceName": "dbrickspipeline",
 					"type": "PipelineReference"
+				},
+				"parameters": {
+					"notebookname": "basic_transform"
 				}
 			}
 		],
