@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adfeygm"
 		},
+		"azDbricksLinked_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'azDbricksLinked'"
+		},
 		"destADLS_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'destADLS'"
@@ -27,9 +31,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'srcSQLDB'"
 		},
-		"azDbricksLinked_accessToken": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'azDbricksLinked'"
+		"azDbricksLinked_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0607-044521-ihknvvyp"
 		},
 		"destADLS_properties_typeProperties_url": {
 			"type": "string",
@@ -63,9 +67,9 @@
 			"type": "string",
 			"defaultValue": "sqladmin"
 		},
-		"azDbricksLinked_properties_typeProperties_existingClusterId": {
+		"automation_properties_dbrickspipeline_parameters_notebookname": {
 			"type": "string",
-			"defaultValue": "0607-044521-ihknvvyp"
+			"defaultValue": "basic_transform"
 		},
 		"containerUri": {
 			"type": "string",
@@ -94,6 +98,9 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"azDbricksLinked_accessToken": {
+						"value": "[parameters('azDbricksLinked_accessToken')]"
+					},
 					"destADLS_accountKey": {
 						"value": "[parameters('destADLS_accountKey')]"
 					},
@@ -109,8 +116,8 @@
 					"srcSQLDB_password": {
 						"value": "[parameters('srcSQLDB_password')]"
 					},
-					"azDbricksLinked_accessToken": {
-						"value": "[parameters('azDbricksLinked_accessToken')]"
+					"azDbricksLinked_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('azDbricksLinked_properties_typeProperties_existingClusterId')]"
 					},
 					"destADLS_properties_typeProperties_url": {
 						"value": "[parameters('destADLS_properties_typeProperties_url')]"
@@ -135,9 +142,6 @@
 					},
 					"srcSQLDB_properties_typeProperties_userName": {
 						"value": "[parameters('srcSQLDB_properties_typeProperties_userName')]"
-					},
-					"azDbricksLinked_properties_typeProperties_existingClusterId": {
-						"value": "[parameters('azDbricksLinked_properties_typeProperties_existingClusterId')]"
 					}
 				}
 			},
@@ -156,6 +160,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"automation_properties_dbrickspipeline_parameters_notebookname": {
+						"value": "[parameters('automation_properties_dbrickspipeline_parameters_notebookname')]"
 					}
 				}
 			},

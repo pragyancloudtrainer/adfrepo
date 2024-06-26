@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adfeygm"
 		},
+		"azDbricksLinked_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'azDbricksLinked'"
+		},
 		"destADLS_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'destADLS'"
@@ -27,9 +31,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'srcSQLDB'"
 		},
-		"azDbricksLinked_accessToken": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'azDbricksLinked'"
+		"azDbricksLinked_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0607-044521-ihknvvyp"
 		},
 		"destADLS_properties_typeProperties_url": {
 			"type": "string",
@@ -62,10 +66,6 @@
 		"srcSQLDB_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sqladmin"
-		},
-		"azDbricksLinked_properties_typeProperties_existingClusterId": {
-			"type": "string",
-			"defaultValue": "0607-044521-ihknvvyp"
 		}
 	},
 	"variables": {
@@ -128,6 +128,24 @@
 					}
 				},
 				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/azDbricksLinked')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-2655662354724726.6.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('azDbricksLinked_accessToken')]"
+					},
+					"existingClusterId": "[parameters('azDbricksLinked_properties_typeProperties_existingClusterId')]"
+				}
 			},
 			"dependsOn": []
 		},
@@ -237,22 +255,114 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/azDbricksLinked')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/dbrickspipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"annotations": [],
-				"type": "AzureDatabricks",
-				"typeProperties": {
-					"domain": "https://adb-2655662354724726.6.azuredatabricks.net",
-					"accessToken": {
-						"type": "SecureString",
-						"value": "[parameters('azDbricksLinked_accessToken')]"
-					},
-					"existingClusterId": "[parameters('azDbricksLinked_properties_typeProperties_existingClusterId')]"
-				}
+				"activities": [
+					{
+						"name": "SwitchNotebook",
+						"type": "Switch",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"on": {
+								"value": "@pipeline().parameters.notebookname",
+								"type": "Expression"
+							},
+							"cases": [
+								{
+									"value": "basic_transform",
+									"activities": [
+										{
+											"name": "Basic_Transformation",
+											"type": "DatabricksNotebook",
+											"dependsOn": [],
+											"policy": {
+												"timeout": "0.12:00:00",
+												"retry": 0,
+												"retryIntervalInSeconds": 30,
+												"secureOutput": false,
+												"secureInput": false
+											},
+											"userProperties": [],
+											"typeProperties": {
+												"notebookPath": "/Users/cloudtraineracct@outlook.com/02_basic_transformation"
+											},
+											"linkedServiceName": {
+												"referenceName": "azDbricksLinked",
+												"type": "LinkedServiceReference"
+											}
+										}
+									]
+								},
+								{
+									"value": "string_and_date",
+									"activities": [
+										{
+											"name": "string_date",
+											"type": "DatabricksNotebook",
+											"dependsOn": [],
+											"policy": {
+												"timeout": "0.12:00:00",
+												"retry": 0,
+												"retryIntervalInSeconds": 30,
+												"secureOutput": false,
+												"secureInput": false
+											},
+											"userProperties": [],
+											"typeProperties": {
+												"notebookPath": "/Users/cloudtraineracct@outlook.com/04_String_and_date"
+											},
+											"linkedServiceName": {
+												"referenceName": "azDbricksLinked",
+												"type": "LinkedServiceReference"
+											}
+										}
+									]
+								},
+								{
+									"value": "sort_union",
+									"activities": [
+										{
+											"name": "sort_union",
+											"type": "DatabricksNotebook",
+											"dependsOn": [],
+											"policy": {
+												"timeout": "0.12:00:00",
+												"retry": 0,
+												"retryIntervalInSeconds": 30,
+												"secureOutput": false,
+												"secureInput": false
+											},
+											"userProperties": [],
+											"typeProperties": {
+												"notebookPath": "/Users/cloudtraineracct@outlook.com/05_Sort_union_aggregation_in_spark"
+											},
+											"linkedServiceName": {
+												"referenceName": "azDbricksLinked",
+												"type": "LinkedServiceReference"
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"notebookname": {
+						"type": "string"
+					}
+				},
+				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/azDbricksLinked')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/delimitedSRC')]",
@@ -612,116 +722,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/srcSQLDB')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dbrickspipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "SwitchNotebook",
-						"type": "Switch",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"on": {
-								"value": "@pipeline().parameters.notebookname",
-								"type": "Expression"
-							},
-							"cases": [
-								{
-									"value": "basic_transform",
-									"activities": [
-										{
-											"name": "Basic_Transformation",
-											"type": "DatabricksNotebook",
-											"dependsOn": [],
-											"policy": {
-												"timeout": "0.12:00:00",
-												"retry": 0,
-												"retryIntervalInSeconds": 30,
-												"secureOutput": false,
-												"secureInput": false
-											},
-											"userProperties": [],
-											"typeProperties": {
-												"notebookPath": "/Users/cloudtraineracct@outlook.com/02_basic_transformation"
-											},
-											"linkedServiceName": {
-												"referenceName": "azDbricksLinked",
-												"type": "LinkedServiceReference"
-											}
-										}
-									]
-								},
-								{
-									"value": "string_and_date",
-									"activities": [
-										{
-											"name": "string_date",
-											"type": "DatabricksNotebook",
-											"dependsOn": [],
-											"policy": {
-												"timeout": "0.12:00:00",
-												"retry": 0,
-												"retryIntervalInSeconds": 30,
-												"secureOutput": false,
-												"secureInput": false
-											},
-											"userProperties": [],
-											"typeProperties": {
-												"notebookPath": "/Users/cloudtraineracct@outlook.com/04_String_and_date"
-											},
-											"linkedServiceName": {
-												"referenceName": "azDbricksLinked",
-												"type": "LinkedServiceReference"
-											}
-										}
-									]
-								},
-								{
-									"value": "sort_union",
-									"activities": [
-										{
-											"name": "sort_union",
-											"type": "DatabricksNotebook",
-											"dependsOn": [],
-											"policy": {
-												"timeout": "0.12:00:00",
-												"retry": 0,
-												"retryIntervalInSeconds": 30,
-												"secureOutput": false,
-												"secureInput": false
-											},
-											"userProperties": [],
-											"typeProperties": {
-												"notebookPath": "/Users/cloudtraineracct@outlook.com/05_Sort_union_aggregation_in_spark"
-											},
-											"linkedServiceName": {
-												"referenceName": "azDbricksLinked",
-												"type": "LinkedServiceReference"
-											}
-										}
-									]
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"notebookname": {
-						"type": "string"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/azDbricksLinked')]"
 			]
 		},
 		{

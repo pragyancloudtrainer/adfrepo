@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "adfeygm"
 		},
+		"azDbricksLinked_accessToken": {
+			"value": ""
+		},
 		"destADLS_accountKey": {
 			"value": ""
 		},
@@ -20,8 +23,8 @@
 		"srcSQLDB_password": {
 			"value": ""
 		},
-		"azDbricksLinked_accessToken": {
-			"value": ""
+		"azDbricksLinked_properties_typeProperties_existingClusterId": {
+			"value": "0607-044521-ihknvvyp"
 		},
 		"destADLS_properties_typeProperties_url": {
 			"value": "https://databrickseystorage.dfs.core.windows.net/"
@@ -47,8 +50,8 @@
 		"srcSQLDB_properties_typeProperties_userName": {
 			"value": "sqladmin"
 		},
-		"azDbricksLinked_properties_typeProperties_existingClusterId": {
-			"value": "0607-044521-ihknvvyp"
+		"automation_properties_dbrickspipeline_parameters_notebookname": {
+			"value": "basic_transform"
 		},
 		"containerUri": {
 			"value": ""
