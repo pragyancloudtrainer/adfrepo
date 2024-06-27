@@ -3,11 +3,27 @@
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "prodCSV",
+						"type": "DatasetReference"
+					},
+					"name": "srcProdInfo"
+				}
+			],
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
-				""
+				"source(output(",
+				"          prod_cat_code as integer,",
+				"          prod_cat as string,",
+				"          prod_sub_cat_code as integer,",
+				"          prod_subcat as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> srcProdInfo"
 			]
 		}
 	}

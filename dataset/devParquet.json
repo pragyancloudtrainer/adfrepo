@@ -1,10 +1,6 @@
 {
 	"name": "devParquet",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "presentationADLS",
-			"type": "LinkedServiceReference"
-		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
