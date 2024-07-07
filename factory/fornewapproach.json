@@ -1,0 +1,9 @@
+{
+	"name": "fornewapproach",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "d5fb417e-8e2d-407a-abdb-8728f204d849",
+		"tenantId": "f090bfe9-f899-4224-836d-d7362a2353a7"
+	}
+}
